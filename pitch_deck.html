@@ -1,0 +1,760 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quadrant Loom - Investor Pitch Deck</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            height: 100%;
+            scroll-snap-type: y mandatory;
+            scroll-behavior: smooth;
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+            overflow-x: hidden;
+        }
+        
+        .slide-container {
+            width: 100vw;
+            height: 100vh;
+            display: none;
+            position: relative;
+            padding: 40px;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .slide-container.active {
+            display: flex;
+        }
+        
+        .slide {
+            height: 150vh;
+            scroll-snap-align: start;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            text-align: left;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 60px;
+            max-width: 1200px;
+            width: 100%;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            backdrop-filter: blur(10px);
+            animation: slideIn 0.6s ease-out;
+        }
+        
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .slide h1 {
+            font-size: 3em;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-align: center;
+            margin-bottom: 30px;
+            font-weight: 700;
+        }
+        
+        .slide h2 {
+            font-size: 2.2em;
+            color: #2c3e50;
+            margin-bottom: 30px;
+            text-align: center;
+            font-weight: 600;
+        }
+        
+        .slide h3 {
+            font-size: 1.6em;
+            color: #34495e;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+        
+        .slide p, .slide li {
+            font-size: 1.2em;
+            line-height: 1.6;
+            color: #444;
+        }
+        
+        .highlight {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 700;
+            font-size: 1.3em;
+        }
+        
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            margin: 30px 0;
+        }
+        
+        .metric-card {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            transform: translateY(0);
+            transition: transform 0.3s ease;
+            height: 160px;
+        }
+        
+        .metric-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .metric-number {
+            font-size: 2.5em;
+            font-weight: 700;
+            display: block;
+            margin-bottom: 10px;
+        }
+        
+        .timeline {
+            display: flex;
+            justify-content: space-between;
+            margin: 30px 0;
+        }
+        
+        .timeline-item {
+            text-align: center;
+            flex: 1;
+            position: relative;
+        }
+        
+        .timeline-item::after {
+            content: '';
+            position: absolute;
+            top: 50px;
+            left: 50%;
+            right: -50%;
+            height: 3px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+        }
+        
+        .timeline-item:last-child::after {
+            display: none;
+        }
+        
+        .timeline-circle {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 50%;
+            margin: 0 auto 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 700;
+            font-size: 1.2em;
+        }
+        
+        .controls {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 20px;
+            z-index: 1000;
+        }
+        
+        .btn {
+            padding: 12px 24px;
+            background: rgba(255, 255, 255, 0.9);
+            border: none;
+            border-radius: 25px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+        
+        .btn:hover {
+            background: white;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        
+        .slide-indicator {
+            position: fixed;
+            top: 30px;
+            right: 30px;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-weight: 600;
+            backdrop-filter: blur(10px);
+        }
+        
+        .two-column {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            align-items: start;
+        }
+        
+        .logo {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        .logo-icon {
+            width: 120px;
+            height: 120px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3em;
+            color: white;
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+        
+        .problem-solution {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            margin: 30px 0;
+        }
+        
+        .problem, .solution {
+            padding: 30px;
+            border-radius: 15px;
+        }
+        
+        .problem {
+            background: linear-gradient(135deg, #ff6b6b, #ee5a24);
+            color: white;
+        }
+        
+        .solution {
+            background: linear-gradient(135deg, #00d2d3, #54a0ff);
+            color: white;
+        }
+        
+        ul {
+            padding-left: 10px;
+            list-style-type: disc;
+            margin-top: 10px;
+        }
+        
+        .funding-breakdown {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+        
+        .funding-item {
+            background: linear-gradient(135deg, #a8edea, #fed6e3);
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <!-- Slide 1: Title -->
+    <div class="slide-container active">
+        <div class="slide">
+            <div class="logo">
+                <div class="logo-icon">QL</div>
+                <h1>Quadrant Loom</h1>
+                <p style="font-size: 1.4em; text-align: center;">
+                    <span class="highlight">AI-Powered Community Security</span><br>
+                    Revolutionizing Safety Through Collective Intelligence
+                </p>
+                <p style="text-align: center; font-size: 1.1em;">
+                    Connecting Nyumba Kumi Communities Under Unified Surveillance
+                </p>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Slide 2: Problem -->
+    <div class="slide-container">
+        <div class="slide">
+            <h2>The Security Challenge</h2>
+            <div class="problem-solution">
+                <div class="problem">
+                    <h3>Current Problems</h3>
+                    <ul>
+                        <li>Fragmented security systems across communities</li>
+                        <li>High individual costs for comprehensive security</li>
+                        <li>Limited surveillance coverage in residential areas</li>
+                        <li>Slow response times to security threats</li>
+                        <li>Lack of community coordination in security matters</li>
+                        <li>Privacy concerns with traditional surveillance</li>
+                    </ul>
+                </div>
+                <div class="solution">
+                    <h3>Market Reality</h3>
+                    <ul>
+                        <li>Kenya security market: <strong>$12.4M by 2028</strong></li>
+                        <li>9.57% annual growth rate</li>
+                        <li>1.4M households need security solutions</li>
+                        <li>Existing solutions serve only affluent communities</li>
+                        <li>Gap in affordable, community-based security</li>
+                        <li>Growing demand for AI-powered solutions</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Slide 3: Solution -->
+    <div class="slide-container">
+        <div class="slide">
+            <h2>Our Solution: Cordon Application</h2>
+            <div class="two-column">
+                <div>
+                    <h3>🎯 Core Innovation</h3>
+                    <p>The <span class="highlight">Cordon Application</span> integrates multiple properties under a unified AI-powered surveillance system, leveraging Kenya's "nyumba kumi" community structure.</p>
+                    
+                    <h3>🔒 Key Features</h3>
+                    <ul>
+                        <li><strong>Community Integration:</strong> Synchronized with residents' social security numbers</li>
+                        <li><strong>Privacy Protection:</strong> Huduma number integration for secure access</li>
+                        <li><strong>Collective Decision Making:</strong> Community-driven security protocols</li>
+                        <li><strong>AI Threat Detection:</strong> Real-time pattern recognition</li>
+                    </ul>
+                </div>
+                <div>
+                    <h3>🚀 Technology Stack</h3>
+                    <ul>
+                        <li>Machine Learning for threat detection</li>
+                        <li>Computer vision for surveillance analysis</li>
+                        <li>Mobile-first application design</li>
+                        <li>Cloud-based infrastructure</li>
+                        <li>IoT integration capabilities</li>
+                        <li>Real-time alert system</li>
+                    </ul>
+                    
+                    <h3>🎯 Target Impact</h3>
+                    <p>Creating <span class="highlight">safer, more sustainable neighborhoods</span> through community empowerment and advanced technology integration.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Slide 4: Market Opportunity -->
+    <div class="slide-container">
+        <div class="slide">
+            <h2>Market Opportunity</h2>
+            <div class="metrics-grid">
+                <div class="metric-card">
+                    <span class="metric-number">$12.4M</span>
+                    Kenya Security Market by 2028
+                </div>
+                <div class="metric-card">
+                    <span class="metric-number">9.57%</span>
+                    Annual Growth Rate (CAGR)
+                </div>
+                <div class="metric-card">
+                    <span class="metric-number">1.4M</span>
+                    Active Households by 2028
+                </div>
+                <div class="metric-card">
+                    <span class="metric-number">15.62%</span>
+                    Africa Cybersecurity Growth
+                </div>
+            </div>
+            
+            <h3>Target Customer Segments</h3>
+            <div class="two-column">
+                <ul>
+                    <li><strong>Suburbs & Gated Communities:</strong> High-income, tech-savvy residents</li>
+                    <li><strong>Residential Communities:</strong> Urban and rural neighborhoods</li>
+                    <li><strong>Commercial Complexes:</strong> Office buildings and retail centers</li>
+                </ul>
+                <ul>
+                    <li><strong>Educational Institutions:</strong> Schools and universities</li>
+                    <li><strong>Housing Projects:</strong> Government and private developments</li>
+                    <li><strong>Informal Settlements:</strong> Community-funded security solutions</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Slide 5: Business Model -->
+    <div class="slide-container">
+        <div class="slide">
+            <h2>Revenue Model</h2>
+            <div class="metrics-grid">
+                <div class="metric-card">
+                    <span class="metric-number">$10-50</span>
+                    Monthly Subscriptions
+                </div>
+                <div class="metric-card">
+                    <span class="metric-number">$500-2K</span>
+                    Installation Fees
+                </div>
+                <div class="metric-card">
+                    <span class="metric-number">$5-20</span>
+                    Premium Features
+                </div>
+                <div class="metric-card">
+                    <span class="metric-number">$1K-10K</span>
+                    Commercial Licensing
+                </div>
+            </div>
+
+            <h3 style="text-align: center;">3-Year Financial Projections</h3>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-circle">Y1</div>
+                    <h4>$500K Revenue</h4>
+                    <p>1,000 Households</p>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-circle">Y2</div>
+                    <h4>$2.5M Revenue</h4>
+                    <p>5,000 Households</p>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-circle">Y3</div>
+                    <h4>$8M Revenue</h4>
+                    <p>15,000 Households</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Slide 6: Competition -->
+    <div class="slide-container">
+        <div class="slide">
+            <h2>Competitive Landscape</h2>
+            <div class="two-column">
+                <div>
+                    <h3>Established Players</h3>
+                    <ul>
+                        <li><strong>G4S Kenya (GardaWorld):</strong> 25+ years, comprehensive solutions</li>
+                        <li><strong>Ultimate Security:</strong> Est. 1979, traditional guarding</li>
+                        <li><strong>Cobra Security:</strong> 3,500+ staff, corporate focus</li>
+                        <li><strong>Brinks Security:</strong> Metro area coverage</li>
+                        <li><strong>Absolute Security:</strong> CCTV and electronic solutions</li>
+                    </ul>
+                </div>
+                <div>
+                    <h3>Our Competitive Advantage</h3>
+                    <ul>
+                        <li><strong>Community-Centric:</strong> Built for nyumba kumi structure</li>
+                        <li><strong>AI-Powered:</strong> Advanced threat detection</li>
+                        <li><strong>Cost-Effective:</strong> Shared infrastructure model</li>
+                        <li><strong>Privacy-First:</strong> Huduma number integration</li>
+                        <li><strong>Scalable:</strong> Cloud-based architecture</li>
+                        <li><strong>Local Focus:</strong> Designed for Kenyan communities</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="problem-solution" style="margin-top: 10px;">
+                <div class="problem">
+                    <h4>Traditional Approach</h4>
+                    <p>Individual security solutions, high costs, limited coverage, manual monitoring</p>
+                </div>
+                <div class="solution">
+                    <h4>Quadrant Loom Approach</h4>
+                    <p>Community-based security, shared costs, comprehensive coverage, AI-powered automation</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Slide 7: Technology -->
+    <div class="slide-container">
+        <div class="slide">
+            <h2>Technology & Innovation</h2>
+            <div class="two-column">
+                <div>
+                    <h3>🤖 AI/ML Capabilities</h3>
+                    <ul>
+                        <li>Real-time threat detection and classification</li>
+                        <li>Pattern recognition for suspicious activities</li>
+                        <li>Predictive analytics for security insights</li>
+                        <li>Automated alert prioritization</li>
+                        <li>Continuous learning from community data</li>
+                    </ul>
+                    <h3>🔧 Technical Architecture</h3>
+                    <ul>
+                        <li>Cloud-based scalable infrastructure</li>
+                        <li>Mobile-first application design</li>
+                        <li>IoT device integration</li>
+                        <li>Real-time data processing</li>
+                        <li>Secure data encryption</li>
+                    </ul>
+                </div>
+                <div>
+                    <h3>🛡️ Privacy & Security</h3>
+                    <ul>
+                        <li>Huduma number integration for identity verification</li>
+                        <li>Community consent mechanisms</li>
+                        <li>Data anonymization techniques</li>
+                        <li>Secure cloud storage</li>
+                        <li>GDPR-compliant data handling</li>
+                    </ul>
+                    
+                    <h3>📱 User Experience</h3>
+                    <ul>
+                        <li>Intuitive mobile interface</li>
+                        <li>Community dashboard</li>
+                        <li>Real-time notifications</li>
+                        <li>Historical analytics</li>
+                        <li>Emergency response features</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Slide 8: Go-to-Market -->
+    <div class="slide-container">
+        <div class="slide">
+            <h2>Go-to-Market Strategy</h2>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-circle">1</div>
+                    <h4>Proof of Concept</h4>
+                    <p>Months 1-6<br>2-3 pilot communities</p>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-circle">2</div>
+                    <h4>Market Validation</h4>
+                    <p>Months 7-12<br>10+ communities</p>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-circle">3</div>
+                    <h4>Market Expansion</h4>
+                    <p>Months 13-24<br>Nairobi & major cities</p>
+                </div>
+            </div>
+            
+            <div class="two-column" style="margin-top: 40px; margin-left: 50px;">
+                <div style="margin-left: 60px;">
+                    <h3>Phase 1: Foundation</h3>
+                    <ul>
+                        <li>Develop core AI algorithms</li>
+                        <li>Build community partnerships</li>
+                        <li>Implement pilot projects</li>
+                        <li>Gather user feedback</li>
+                        <li>Refine product offering</li>
+                    </ul>
+                </div>
+                <div  style="margin-left: 50px;">
+                    <h3>Phase 2 & 3: Scale</h3>
+                    <ul>
+                        <li>Expand to urban centers</li>
+                        <li>Develop commercial offerings</li>
+                        <li>Build strategic partnerships</li>
+                        <li>Establish recurring revenue</li>
+                        <li>Prepare for regional expansion</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Slide 9: Financial Projections -->
+    <div class="slide-container">
+        <div class="slide">
+            <h2>Investment & Returns</h2>
+            
+            <h3>Funding Requirements</h3>
+            <div class="funding-breakdown">
+                <div class="funding-item">
+                    <h4>Development</h4>
+                    <p><strong>$125K</strong><br>AI/ML, App, Infrastructure</p>
+                </div>
+                <div class="funding-item">
+                    <h4>Pilot Implementation</h4>
+                    <p><strong>$90K</strong><br>Equipment, Staff, Marketing</p>
+                </div>
+                <div class="funding-item">
+                    <h4>Operations</h4>
+                    <p><strong>$285K</strong><br>18 months runway</p>
+                </div>
+                <div class="funding-item">
+                    <h4>Total Seed Round</h4>
+                    <p><strong>$500K</strong><br>Growth Capital</p>
+                </div>
+            </div>
+            
+            <div class="metrics-grid" style="margin-top: 40px;">
+                <div class="metric-card">
+                    <span class="metric-number">18-24</span>
+                    Months to Break-even
+                </div>
+                <div class="metric-card">
+                    <span class="metric-number">2,500</span>
+                    Subscribers for Profitability
+                </div>
+                <div class="metric-card">
+                    <span class="metric-number">5x</span>
+                    Projected ROI in 3 Years
+                </div>
+                <div class="metric-card">
+                    <span class="metric-number">40%</span>
+                    Gross Margin Target
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Slide 10: Team & Next Steps -->
+    <div class="slide-container">
+        <div class="slide">
+            <h2>Next Steps & Call to Action</h2>
+            <div class="two-column">
+                <div>
+                    <h3>🎯 Immediate Priorities</h3>
+                    <ul>
+                        <li><strong>Secure Seed Funding:</strong> $500K for 18-month runway</li>
+                        <li><strong>Build Core Team:</strong> AI engineers, community liaisons</li>
+                        <li><strong>Develop MVP:</strong> AI surveillance algorithms</li>
+                        <li><strong>Pilot Communities:</strong> 2-3 nyumba kumi partnerships</li>
+                        <li><strong>Legal Framework:</strong> Privacy compliance and partnerships</li>
+                    </ul>
+                    
+                    <h3 style="margin-top: 60px;">📈 12-Month Milestones</h3>
+                    <ul>
+                        <li>500 households under surveillance</li>
+                        <li>$50K monthly recurring revenue</li>
+                        <li>3 strategic partnerships established</li>
+                        <li>AI model accuracy >85%</li>
+                        <li>Prepare Series A fundraising</li>
+                    </ul>
+                </div>
+                <div>
+                    <h3>🤝 What We're Looking For</h3>
+                    <div class="problem-solution">
+                        <div class="solution" style="margin-bottom: 5px;">
+                            <h4>Lead Investor</h4>
+                            <p>$300K investment, strategic guidance, network access</p>
+                        </div>
+                        <div class="solution" style="margin-bottom: 5px;">
+                            <h4>Co-investors</h4>
+                            <p>$200K total, industry expertise, local market knowledge</p>
+                        </div>
+                    </div>
+                    
+                    <h3>🚀 Why Invest Now?</h3>
+                    <ul>
+                        <li>First-mover advantage in community-based security</li>
+                        <li>Growing market with proven demand</li>
+                        <li>Strong technology foundation</li>
+                        <li>Experienced team with local expertise</li>
+                        <li>Clear path to profitability</li>
+                        <li>Positive social impact potential</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Slide 11: Contact & Thank You -->
+    <div class="slide-container">
+        <div class="slide">
+            <div class="logo">
+                <div class="logo-icon">QL</div>
+                <h1>Thank You</h1>
+                <p style="font-size: 1.2em; text-align: center; margin-bottom: 10px;">
+                    <span class="highlight">Let's Build Safer Communities Together</span>
+                </p>
+            </div>
+            
+            <div class="two-column">
+                <div>
+                    <h3>Contact Information</h3>
+                    <p><strong>Company:</strong> Quadrant Loom Limited</p>
+                    <p><strong>Location:</strong> Nairobi, Kenya</p>
+                    <p><strong>Email:</strong> mwasi.a.austin@gmail.com</p>
+                    <p><strong>Phone:</strong> +254 707 301295</p>
+                    
+                    <h3 style="margin-top: 10px;">Investment Opportunity</h3>
+                    <div class="solution" style="padding: 10px; border-radius: 10px; color: white; text-align: center;  background: linear-gradient(135deg, #667eea, #764ba2);">
+                        <span class="metric-number">$500K</span>
+                        Seed Round Open
+                    </div>
+                </div>
+                <div>
+                    <h3>Follow Our Journey</h3>
+                    <p>Join us in revolutionizing community security across Africa</p>
+                    
+                    <div style="margin-top: 30px; padding: 30px; background: linear-gradient(135deg, #667eea, #764ba2); border-radius: 15px; color: white; text-align: center;">
+                        <h4>Ready to Discuss Partnership?</h4>
+                        <p style="margin-top: 15px;">Schedule a call to learn more about our technology, market opportunity, and investment terms.</p>
+                    </div>
+                    
+                    <p style="margin-top: 30px; font-style: italic; text-align: center;">
+                        "Building tomorrow's security infrastructure,<br>one community at a time."
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="controls">
+        <button class="btn" onclick="previousSlide()">← Previous</button>
+        <button class="btn" onclick="nextSlide()">Next →</button>
+    </div>
+    
+    <div class="slide-indicator">
+        <span id="slideNumber">1</span> / <span id="totalSlides">11</span>
+    </div>
+
+    <script>
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide-container');
+        const totalSlides = slides.length;
+        
+        document.getElementById('totalSlides').textContent = totalSlides;
+        
+        function showSlide(n) {
+            slides[currentSlide].classList.remove('active');
+            currentSlide = (n + totalSlides) % totalSlides;
+            slides[currentSlide].classList.add('active');
+            document.getElementById('slideNumber').textContent = currentSlide + 1;
+        }
+        
+        function nextSlide() {
+            showSlide(currentSlide + 1);
+        }
+        
+        function previousSlide() {
+            showSlide(currentSlide - 1);
+        }
+        
+        // Keyboard navigation
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'ArrowRight' || e.key === ' ') {
+                nextSlide();
+            } else if (e.key === 'ArrowLeft') {
+                previousSlide();
+            }
+        });
+        
+
+    </script>
+</body>
+</html>
